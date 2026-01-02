@@ -1,28 +1,24 @@
 import { NextResponse } from "next/server";
-import { model } from "@/lib/gemini";
+import { createGeminiModel } from "@/lib/gemini";
 
 export async function POST(req: Request) {
-  console.log("🔥 /api/assistant POST HIT 🔥");
+  console.log("🔥 POST HIT");
+
   const body = await req.json();
-
-  const query = body?.query ?? "";
-  const source = body?.source ?? "unknown";
-  const device = body?.device ?? "unknown";
-
-  console.log("SOURCE:", source);
-  console.log("DEVICE:", device);
-  console.log("USER:", query);
+  const query = body?.query || body?.TextField || "";
 
   if (!query) {
     return NextResponse.json({ error: "Empty query" }, { status: 400 });
   }
 
-  const result = await model.generateContent(query);
-  const reply = result.response.text();
+  try {
+    const model = createGeminiModel();
+    const result = await model.generateContent(query);
+    const reply = result.response.text();
 
-  console.log("AI:", reply);
-
-  return NextResponse.json({
-    reply,
-  });
+    return NextResponse.json({ reply });
+  } catch (err: any) {
+    console.error("❌ RUNTIME ERROR:", err);
+    return NextResponse.json({ error: String(err) }, { status: 500 });
+  }
 }
