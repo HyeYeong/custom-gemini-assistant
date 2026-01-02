@@ -10,6 +10,6 @@ export function createGeminiModel() {
   const genAI = new GoogleGenerativeAI(apiKey);
 
   return genAI.getGenerativeModel({
-    model: "gemini-pro",
+    model: "gemini-1.5-flash",
   });
 }
