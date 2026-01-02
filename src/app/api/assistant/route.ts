@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { model } from "@/lib/gemini";
 
 export async function POST(req: Request) {
+  console.log("🔥 /api/assistant POST HIT 🔥");
   const body = await req.json();
 
   const query = body?.query ?? "";
