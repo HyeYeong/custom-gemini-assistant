@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export function createGeminiModel() {
   const apiKey = process.env.GEMINI_API_KEY;
+
   if (!apiKey) {
     throw new Error("GEMINI_API_KEY is missing");
   }
@@ -9,6 +10,6 @@ export function createGeminiModel() {
   const genAI = new GoogleGenerativeAI(apiKey);
 
   return genAI.getGenerativeModel({
-    model: "models/gemini-1.5-flash",
+    model: "models/gemini-pro",
   });
 }
